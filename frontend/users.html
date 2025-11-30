@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Sistema Académico</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">🎓 Sistema Académico</div>
+                <div class="navbar-user">
+                    <a href="dashboard.html" class="btn btn-secondary btn-sm">← Dashboard</a>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Cargando...</div>
+                        <div class="user-role" id="userRole"></div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">👥 Gestión de Usuarios</h2>
+                <button onclick="showCreateModal()" class="btn btn-primary">
+                    + Nuevo Usuario
+                </button>
+            </div>
+            
+            <div id="messageContainer"></div>
+            
+            <div id="usersTableContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando usuarios...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Crear/Editar Usuario -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Nuevo Usuario</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    
+                    <div class="form-group">
+                        <label for="username">Usuario *</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group" id="passwordGroup">
+                        <label for="password">Contraseña *</label>
+                        <input type="password" id="password">
+                        <small style="color: #666;">Mínimo 8 caracteres, 1 mayúscula, 1 número, 1 símbolo</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role">Rol *</label>
+                        <select id="role" required>
+                            <option value="student">Estudiante</option>
+                            <option value="teacher">Profesor</option>
+                            <option value="administrative">Administrativo</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    
+                    <div id="formMessage"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveUser()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>

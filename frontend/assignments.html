@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignaciones - Sistema Académico</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">🎓 Sistema Académico</div>
+                <div class="navbar-user">
+                    <a href="dashboard.html" class="btn btn-secondary btn-sm">← Dashboard</a>
+                    <a href="courses.html" class="btn btn-secondary btn-sm">📚 Cursos</a>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Cargando...</div>
+                        <div class="user-role" id="userRole"></div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title" id="pageTitle">📝 Mis Asignaciones</h2>
+                <button onclick="showCreateModal()" class="btn btn-primary" id="createBtn" style="display: none;">
+                    + Nueva Asignación
+                </button>
+            </div>
+            
+            <div id="messageContainer"></div>
+            
+            <div id="assignmentsContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando asignaciones...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Crear/Editar Asignación -->
+    <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Nueva Asignación</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="assignmentForm">
+                    <input type="hidden" id="assignmentId">
+                    
+                    <div class="form-group" id="courseSelectGroup">
+                        <label for="courseSelect">Curso *</label>
+                        <select id="courseSelect" required>
+                            <option value="">Selecciona un curso...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">Título *</label>
+                        <input type="text" id="title" required placeholder="Ej: Tarea 1: Derivadas">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descripción</label>
+                        <textarea id="description" placeholder="Descripción de la asignación..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dueDate">Fecha de Entrega</label>
+                        <input type="datetime-local" id="dueDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxScore">Puntaje Máximo</label>
+                        <input type="number" id="maxScore" value="100" step="0.01" min="0">
+                    </div>
+                    
+                    <div id="formMessage"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveAssignment()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/assignments.js"></script>
+</body>
+</html>

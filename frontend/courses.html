@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - Sistema Académico</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">🎓 Sistema Académico</div>
+                <div class="navbar-user">
+                    <a href="dashboard.html" class="btn btn-secondary btn-sm">← Dashboard</a>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Cargando...</div>
+                        <div class="user-role" id="userRole"></div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">📚 Mis Cursos</h2>
+                <button onclick="showCreateModal()" class="btn btn-primary" id="createBtn" style="display: none;">
+                    + Nuevo Curso
+                </button>
+            </div>
+            
+            <div id="messageContainer"></div>
+            
+            <div id="coursesContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando cursos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Crear/Editar Curso -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Nuevo Curso</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <input type="hidden" id="courseId">
+                    
+                    <div class="form-group">
+                        <label for="name">Nombre del Curso *</label>
+                        <input type="text" id="name" required placeholder="Ej: Matemáticas Avanzadas">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="code">Código *</label>
+                        <input type="text" id="code" required placeholder="Ej: MATH301">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descripción</label>
+                        <textarea id="description" placeholder="Descripción del curso..."></textarea>
+                    </div>
+                    
+                    <div id="formMessage"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveCourse()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Ver Estudiantes -->
+    <div id="studentsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Estudiantes Inscritos</h3>
+                <button class="close" onclick="closeStudentsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="studentsContent">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando estudiantes...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/courses.js"></script>
+</body>
+</html>

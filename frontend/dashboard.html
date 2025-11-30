@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema Académico</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">🎓 Sistema Académico</div>
+                <div class="navbar-user">
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Cargando...</div>
+                        <div class="user-role" id="userRole"></div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Menú de navegación -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Panel de Control</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <a href="users.html" class="btn btn-primary" id="usersLink" style="display: none;">
+                    👥 Gestión de Usuarios
+                </a>
+                <a href="courses.html" class="btn btn-primary">
+                    📚 Cursos
+                </a>
+                <a href="assignments.html" class="btn btn-primary">
+                    📝 Asignaciones
+                </a>
+            </div>
+        </div>
+        
+        <!-- Estadísticas rápidas -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Resumen</h2>
+            </div>
+            <div id="statsContent">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando estadísticas...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información del usuario -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Mi Perfil</h2>
+            </div>
+            <div id="profileContent">
+                <p><strong>Usuario:</strong> <span id="profileUsername"></span></p>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <p><strong>Rol:</strong> <span id="profileRole" class="badge badge-primary"></span></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Verificar autenticación
+        if (!requireAuth()) {
+            throw new Error('No autenticado');
+        }
+        
+        // Cargar información del usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = getUser();
+            
+            if (!user) {
+                logout();
+                return;
+            }
+            
+            // Mostrar información en navbar
+            document.getElementById('userName').textContent = user.username;
+            document.getElementById('userRole').textContent = user.role;
+            
+            // Mostrar información en perfil
+            document.getElementById('profileUsername').textContent = user.username;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileRole').textContent = user.role;
+            
+            // Mostrar link de usuarios solo para admin y administrative
+            if (hasAnyRole(['admin', 'administrative'])) {
+                document.getElementById('usersLink').style.display = 'block';
+            }
+            
+            // Cargar estadísticas
+            loadStats();
+        });
+        
+        async function loadStats() {
+            const statsContent = document.getElementById('statsContent');
+            const user = getUser();
+            
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">';
+            
+            // Estadísticas según rol
+            if (user.role === 'admin') {
+                html += `
+                    <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px;">
+                        <h3 style="font-size: 32px; margin: 0;">👥</h3>
+                        <p style="margin: 10px 0 0; font-size: 14px; color: #666;">Gestionar usuarios y roles</p>
+                    </div>
+                `;
+            }
+            
+            if (user.role === 'teacher' || user.role === 'admin') {
+                html += `
+                    <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px;">
+                        <h3 style="font-size: 32px; margin: 0;">📚</h3>
+                        <p style="margin: 10px 0 0; font-size: 14px; color: #666;">Crear y gestionar cursos</p>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px;">
+                        <h3 style="font-size: 32px; margin: 0;">📝</h3>
+                        <p style="margin: 10px 0 0; font-size: 14px; color: #666;">Asignar tareas a estudiantes</p>
+                    </div>
+                `;
+            }
+            
+            if (user.role === 'student') {
+                html += `
+                    <div style="text-align: center; padding: 20px; background: #e8f5e9; border-radius: 8px;">
+                        <h3 style="font-size: 32px; margin: 0;">🎓</h3>
+                        <p style="margin: 10px 0 0; font-size: 14px; color: #666;">Ver mis cursos</p>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #fce4ec; border-radius: 8px;">
+                        <h3 style="font-size: 32px; margin: 0;">✅</h3>
+                        <p style="margin: 10px 0 0; font-size: 14px; color: #666;">Mis asignaciones</p>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            statsContent.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
