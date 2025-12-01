@@ -1,8 +1,8 @@
 """
 Inicialización de la aplicación Flask
 """
-
-from flask import Flask
+import os
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -18,7 +18,13 @@ def create_app(config_name='default'):
     Returns:
         Flask app instance
     """
-    app = Flask(__name__)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    frontend_dir = os.path.join(base_dir, '../../frontend')
+    app = Flask(__name__, 
+                template_folder= frontend_dir, 
+                static_folder= frontend_dir, 
+                static_url_path=''
+                )
     
     # Cargar configuración
     app.config.from_object(config[config_name])
@@ -35,10 +41,10 @@ def create_app(config_name='default'):
     )
     
     # Registrar blueprints
-    from app.routes.auth_routes import auth_bp
-    from app.routes.user_routes import user_bp
-    from app.routes.course_routes import course_bp
-    from app.routes.assignment_routes import assignment_bp
+    from .routes.auth_routes import auth_bp
+    from .routes.user_routes import user_bp
+    from .routes.course_routes import course_bp
+    from .routes.assignment_routes import assignment_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
@@ -51,11 +57,7 @@ def create_app(config_name='default'):
     # Ruta de prueba
     @app.route('/')
     def index():
-        return {
-            'message': 'Sistema de Gestión Académica API',
-            'version': '1.0.0',
-            'status': 'running'
-        }
+        return render_template("login.html")
     
     # Manejador de errores 404
     @app.errorhandler(404)

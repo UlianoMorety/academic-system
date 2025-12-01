@@ -3,7 +3,7 @@ Script para ejecutar la aplicación Flask
 """
 
 import os
-from app.utils import create_app
+from app import create_app
 
 # Obtener configuración del entorno
 config_name = os.getenv('FLASK_ENV', 'development')
