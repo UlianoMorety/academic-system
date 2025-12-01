@@ -3,10 +3,18 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Si ya está autenticado, redirigir al dashboard
-    if (isAuthenticated()) {
+    // Solo redirigir si estamos en login.html y ya está autenticado
+    const isLoginPage = window.location.pathname.includes('login.html') || 
+                        window.location.pathname.endsWith('/');
+    
+    if (isLoginPage && isAuthenticated()) {
         window.location.href = 'dashboard.html';
         return;
+    }
+    
+    // Solo intentar obtener elementos del formulario si estamos en login.html
+    if (!isLoginPage) {
+        return; // No hacer nada si no es la página de login
     }
     
     const loginForm = document.getElementById('loginForm');
