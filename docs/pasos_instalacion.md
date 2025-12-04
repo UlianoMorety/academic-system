@@ -508,7 +508,3 @@ Una vez que todo funcione:
 - **pytest:** https://docs.pytest.org/
 
 ---
-
-**¿Necesitas ayuda?** Revisa los logs en la terminal donde corre Flask para ver errores detallados.
-
-**¡Éxito con tu proyecto final!** 🎓🚀
